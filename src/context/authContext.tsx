@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { createContext } from 'react';
 import { AuthData, authServices } from '../services/authServices';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Method } from 'axios';
 
 export type AuthContextData = {
   authData: AuthData | null;

@@ -20,7 +20,7 @@ export const PrimaryButton = (props: buttonProps) => {
                 colors={[appColors.primaryBtnStart, appColors.primaryBtnEnd]}
                 style={[styles.linearGradient]}>
                 <Text style={styles.buttonText}>
-                    Sign In
+                    {text}
                 </Text>
             </LinearGradient>
         </TouchableOpacity>
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     btnContainer: {
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: 'red'
+        height: 48,
     },
     linearGradient: {
         paddingLeft: 15,

@@ -43,8 +43,6 @@ const AuthProvider: React.FC = ({ children }) => {
   const signIn = async (props: loginProps) => {
     const { email, password } = props;
 
-    console.log("sign in ==>");
-
     const _authData = await authServices.signIn(email, password);
     setAuthData(_authData);
 

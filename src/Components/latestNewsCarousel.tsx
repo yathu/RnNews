@@ -38,15 +38,10 @@ const LatestNewsCarousel: React.FC<LatestCarouselProps> = ({ data }) => {
 
     const { articles } = (data && data?.articles) ? data : []
 
-    console.log(data, "articles==>");
-
     useEffect(() => {
         setCarouselItems(articles);
     }, [data]);
 
-
-
-    console.log(SLIDER_WIDTH, ITEM_WIDTH, SLIDER_HEIGHT);
 
     const renderItem = useCallback(({ item, index }: RenderItemProps) => {
         return (

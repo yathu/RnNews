@@ -14,7 +14,7 @@ instance.interceptors.request.use(
         }
 
         //in every request we can show what's going on
-        console.log('config.headers', config.url, config.headers, config.data);
+        // console.log('config.headers', config.url, config.headers, config.data);
 
         return config;
     },

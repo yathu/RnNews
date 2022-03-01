@@ -23,8 +23,6 @@ const HomeScreen = () => {
 
     const loadTopNews = React.useCallback(async () => {
         try {
-            console.log("selectedCategory", selectedCategory);
-
             const topNews = await topHeadlines({
                 category: selectedCategory,
             });
@@ -60,7 +58,6 @@ const HomeScreen = () => {
 
 
     const onCategoryPress = React.useCallback(async (category) => {
-        console.log("onCategoryPress", category);
         setSelectedCategory(category);
     }, []);
 

@@ -1,15 +1,9 @@
-import { Layout, ViewPager } from "@ui-kitten/components";
 import React, { useEffect } from "react";
-import { Dimensions, FlatList, StatusBar, StyleSheet, Text, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import Carousel from "react-native-snap-carousel";
+import { Alert, Dimensions, FlatList, StyleSheet, View } from "react-native";
 import CategoriesCarousel from "../Components/categoriesCarousel";
-import LatestNewsCarousel, { ArticleProps } from "../Components/latestNewsCarousel";
+import LatestNewsCarousel from "../Components/latestNewsCarousel";
 import NewsListItem from "../Components/NewsListItem";
-import { PrimaryButton } from "../Components/PrimaryButton";
-import TopNewsList from "../Components/TopNewsList";
-import { countries, getEverything, topHeadlines } from "../services/news";
-import { categories } from '../services/news';
+import { categories, getEverything, topHeadlines } from "../services/news";
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -21,23 +15,12 @@ const HomeScreen = () => {
     const [selectedCategory, setSelectedCategory] = React.useState<any>(categories.general);
 
 
-    const loadTopNews = React.useCallback(async () => {
-        try {
-            const topNews = await topHeadlines({
-                category: selectedCategory,
-            });
-            setTopNews(topNews);
 
-        } catch (error) {
-
-        }
-    }, [selectedCategory]);
 
     const loadEveryThing = React.useCallback(async () => {
         try {
             const news = await getEverything({
                 q: 'corona',
-                // country: countries.us,
             });
             const { status } = news;
 
@@ -50,28 +33,59 @@ const HomeScreen = () => {
     }, []);
 
 
-    useEffect(() => {
-        loadEveryThing();
-        loadTopNews();
-    }, []);
-
-
-
-    const onCategoryPress = React.useCallback(async (category) => {
+    const onCategoryPress = React.useCallback((category: string) => {
+        console.log(selectedCategory, "category==> 1");
         setSelectedCategory(category);
-    }, []);
+        console.log(category, "category==>");
+    }, [topNews, selectedCategory]);
 
-    const headerComponent = React.useCallback(() => {
-        return (<View>
+
+    const headerComponent = React.useMemo(() => {
+        return (<>
             <LatestNewsCarousel data={latestNews} />
             <CategoriesCarousel onTab={onCategoryPress} />
-        </View>);
-    }, [latestNews]);
+        </>);
+    }, [latestNews, selectedCategory]);
 
+
+    const loadTopNews = React.useCallback(async () => {
+        try {
+
+            console.log('selectedCategory', selectedCategory, "==>")
+            const _topNews = await topHeadlines({
+                category: selectedCategory,
+            });
+
+            setTopNews(_topNews);
+
+        } catch (error) {
+
+        }
+    }, [selectedCategory]);
+
+
+
+    React.useEffect(() => {
+        loadEveryThing();
+    }, []);
+
+    React.useEffect(() => {
+        loadTopNews();
+    }, [selectedCategory]);
+
+    const renderItem = ({ item, index }: any) => (
+        <NewsListItem key={item?.title} data={item} />
+    );
 
     return (
         <View style={styles.container}>
-            <TopNewsList data={topNews?.articles} headerComponent={headerComponent} />
+            <FlatList
+                ListHeaderComponent={headerComponent}
+                nestedScrollEnabled={true}
+                data={topNews?.articles}
+                renderItem={renderItem}
+                keyExtractor={item => item.title}
+            />
         </View>
     );
 }

@@ -10,9 +10,9 @@ export enum countries {
 };
 
 export enum categories {
+    general = "general",
     business = "business",
     entertainment = "entertainment",
-    general = "general",
     health = "health",
     science = "science",
     sports = "sports",
